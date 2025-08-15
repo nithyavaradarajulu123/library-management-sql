@@ -173,8 +173,9 @@ GROUP BY m.name;
 
 SELECT b.title, p.publisher_name, c.category_name
 FROM Books b
-LEFT JOIN Publishers p ON b.book_id % 3 + 1 = p.publisher_id  -- assigning publishers randomly
-LEFT JOIN Categories c ON b.book_id % 4 + 1 = c.category_id;   -- assigning categories randomly
+LEFT JOIN Publishers p ON b.book_id % 3 + 1 = p.publisher_id  
+LEFT JOIN Categories c ON b.book_id % 4 + 1 = c.category_id;  
+
 
 
 
