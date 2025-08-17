@@ -1,6 +1,6 @@
-Creating Tables
+--Creating Tables
 
-a. Books Table
+--a. Books Table
 
 CREATE TABLE Books (
     book_id INT PRIMARY KEY,
@@ -10,7 +10,7 @@ CREATE TABLE Books (
     published_year INT
 );
 
-b. Members Table
+--b. Members Table
 
 CREATE TABLE Members (
     member_id INT PRIMARY KEY,
@@ -19,7 +19,7 @@ CREATE TABLE Members (
     membership_date DATE
 );
 
-c. Loans Table
+--c. Loans Table
 
 CREATE TABLE Loans (
     loan_id INT PRIMARY KEY,
@@ -31,14 +31,14 @@ CREATE TABLE Loans (
     FOREIGN KEY (member_id) REFERENCES Members(member_id)
 );
 
-d.Categories table
+--d.Categories table
 
 CREATE TABLE Categories (
     category_id INT PRIMARY KEY,
     category_name VARCHAR(50)
 );
 
-e.Publishers table
+--e.Publishers table
 
 CREATE TABLE Publishers (
     publisher_id INT PRIMARY KEY,
@@ -47,7 +47,7 @@ CREATE TABLE Publishers (
 );
 
 
-f.Staff table
+--f.Staff table
 
 CREATE TABLE Staff (
     staff_id INT PRIMARY KEY,
@@ -57,7 +57,7 @@ CREATE TABLE Staff (
 );
 
 
-g.Fines table
+--g.Fines table
 
 CREATE TABLE Fines (
     fine_id INT PRIMARY KEY,
@@ -69,9 +69,9 @@ CREATE TABLE Fines (
 
 
 
-Insert Sample Data
+--Insert Sample Data
 
-a. Insert into Books
+--a. Insert into Books
 
 INSERT INTO Books VALUES
 (1, 'To Kill a Mockingbird', 'Markandeya.H', 'Fiction', 1960),
@@ -81,21 +81,21 @@ INSERT INTO Books VALUES
 (5, 'java', 'Madhuri.P', 'Structure', 2018),
 (6, 'physics', 'Mr.Mohan', 'Lecture', 2029);
 
-b. Insert into Members
+--b. Insert into Members
 
 INSERT INTO Members VALUES
 (1, 'Anvitha', 'anvita12@gmail.com', '2025-01-15'),
 (2, 'Bhanu', 'bhanuraj5@gmail.com', '2025-03-20'),
 (3, 'Chanikya', 'chani08@gamil.com', '2025-07-01');
 
-c.Insert into Loans
+--c.Insert into Loans
 
 INSERT INTO Loans VALUES
 (1, 2, 2, '2025-07-01', '2025-08-10'),
 (2, 4, 3, '2025-07-04', '2025-07-19'),
 (3, 3, 1, '2025-08-05', NULL);
 
-d. Insert into categories
+--d. Insert into categories
 
 INSERT INTO Categories VALUES
 (1, 'chemistry'),
@@ -103,34 +103,34 @@ INSERT INTO Categories VALUES
 (3, ' computer Science'), 
 (4, 'Programming');
 
-e. Insert into publishers
+--e. Insert into publishers
 
 INSERT INTO Publishers VALUES
 (1, 'gayatri', 'India'),
 (2, 'ooha', 'USA'),
 (3, 'prathyusha', 'UK');
 
-f. Insert into staff
+--f. Insert into staff
 
 INSERT INTO Staff VALUES
 (1, 'mahathi', 'Librarian', '2024-05-10'),
 (2, 'rajyalakshmi', 'Assistant', '2025-01-20');
 
-g. Insert into fines
+--g. Insert into fines
 
 INSERT INTO Fines VALUES
 (1, 2, 16.00, FALSE);
 
 
->>Show all available books
+--Show all available books
 
 SELECT * FROM Books;
 
->>List all members
+--List all members
 
 SELECT * FROM Members;
 
->>Find all books currently on loan
+--Find all books currently on loan
 
 SELECT b.title, m.name, l.loan_date
 FROM Loans l
@@ -138,21 +138,21 @@ JOIN Books b ON l.book_id = b.book_id
 JOIN Members m ON l.member_id = m.member_id
 WHERE l.return_date IS NULL;
 
->>Count how many books each member has borrowed
+--Count how many books each member has borrowed
 
 SELECT m.name, COUNT(l.loan_id) AS total_loans
 FROM Members m
 JOIN Loans l ON m.member_id = l.member_id
 GROUP BY m.name;
 
->>List books not currently loaned out
+--List books not currently loaned out
 
 SELECT * FROM Books
 WHERE book_id NOT IN (
     SELECT book_id FROM Loans WHERE return_date IS NULL
 );
 
->>Show overdue books:
+--Show overdue books:
 
 SELECT b.title, m.name, l.loan_date
 FROM Loans l
@@ -160,7 +160,7 @@ JOIN Books b ON l.book_id = b.book_id
 JOIN Members m ON l.member_id = m.member_id
 WHERE l.return_date IS NULL AND l.loan_date < CURRENT_DATE;
 
->>Total fine amount owed by each member:
+--Total fine amount owed by each member:
 
 SELECT m.name, SUM(f.amount) AS total_fines
 FROM Fines f
@@ -169,12 +169,13 @@ JOIN Members m ON l.member_id = m.member_id
 WHERE f.paid = FALSE
 GROUP BY m.name;
 
->>List Books by Publisher and Category
+--List Books by Publisher and Category
 
 SELECT b.title, p.publisher_name, c.category_name
 FROM Books b
 LEFT JOIN Publishers p ON b.book_id % 3 + 1 = p.publisher_id  
 LEFT JOIN Categories c ON b.book_id % 4 + 1 = c.category_id;  
+
 
 
 
